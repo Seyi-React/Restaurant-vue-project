@@ -1,74 +1,58 @@
 <template>
   <div class="parent">
     <div>
-      <img src="../assets/new.png" class="sign-logo" />
-      <h2 class="sign">sign up</h2>
+      <img src="../assets/new.png" class="log-logo" />
+      <h2 class="login">Login</h2>
     </div>
-    <div class="register">
-      <input type="text" v-model="name" placeholder="Enter your Name" />
+    <div class="login">
       <input type="email" v-model="email" placeholder="Enter your Email" />
       <input
         type="password"
         v-model="password"
         placeholder="Enter your Password"
       />
-      <button type="submit" @click="signUp">Sign Up</button>
-      <p >
-        <router-link to="login" class="login">Login</router-link>
+      <button type="submit" @click="signUp">Login</button>
+      <p>
+        <router-link to="signup" class="login">SignUp</router-link>
       </p>
     </div>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 export default {
-  name: "SignUp",
+  name: "Login",
   data() {
     return {
-      name: "",
       email: "",
       password: "",
     };
   },
   methods: {
-    async signUp() {
-      let result = await axios.post("http://localhost:8000/users", {
-        email: this.email,
-        name: this.name,
-        password: this.password,
-      });
-
-      console.log(result);
-      if (result.status === 201) {
-        localStorage.setItem("user-info", JSON.stringify(result.data));
-        this.$router.push({ name: "Home" });
-      }
-    },
-    mounted() {
-      let user = localStorage.getItem('user-info');
-      if(user) {
+    async Login() {
+      let loginInfo = await axios.get(
+        `http://localhost:8000/users?email=${this.email}&password=${this.password}`
+      );
+      if (loginInfo.status == 200 && loginInfo.data.length > 0) {
+        localStorage.setItem("user-info", JSON.stringify(result.data[0]));
         this.$router.push({ name: "Home" });
       }
     },
   },
 };
 </script>
-
 <style scoped>
-.sign {
+  .log-logo {
+  width: 150px;
+  height: 150px;
+}
+.login {
   text-align: center;
   text-transform: capitalize;
   font-family: system-ui;
   font-size: 28px;
   font-weight: 400;
 }
-
-.sign-logo {
-  width: 150px;
-  height: 150px;
-}
-
 .parent {
   display: flex;
   justify-content: center;
@@ -76,14 +60,7 @@ export default {
   flex-direction: column;
 }
 
-.register {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.register input {
+.login input {
   display: block;
   width: 280px;
   height: 30px;
@@ -94,8 +71,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-
-.register button {
+.login button {
   width: 300px;
   height: 37px;
   color: white;
@@ -106,8 +82,11 @@ export default {
   letter-spacing: 1px;
   cursor: pointer;
 }
+.login input:focus {
+  border: 1px solid skyblue;
+}
 .login {
-  text-align: left;
+
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 18px;
   color: black;
@@ -116,19 +95,5 @@ export default {
 }
 .login:hover {
   opacity: 0.7;
-}
-
-.register input:focus {
-  border: 1px solid skyblue;
-}
-
-@media (max-width: 550px) {
-  .register input {
-    width: 260px;
-  }
-
-  .register button {
-    width: 280px;
-  }
 }
 </style>
