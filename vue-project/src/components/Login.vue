@@ -13,7 +13,7 @@
       />
       <button type="submit" @click="signUp">Login</button>
       <p>
-        <router-link to="signup" class="login">SignUp</router-link>
+        <router-link to="signup" class="login-dic">SignUp</router-link>
       </p>
     </div>
   </div>
@@ -85,7 +85,7 @@ export default {
 .login input:focus {
   border: 1px solid skyblue;
 }
-.login {
+.login-dic {
 
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 18px;

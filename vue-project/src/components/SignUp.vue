@@ -114,9 +114,7 @@ export default {
   text-decoration: none;
   cursor: pointer;
 }
-.login:hover {
-  opacity: 0.7;
-}
+
 
 .register input:focus {
   border: 1px solid skyblue;
